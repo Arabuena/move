@@ -1,11 +1,22 @@
+// Load env vars first
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/database');
 const mongoose = require('mongoose');
 
-// Load env vars
-require('dotenv').config();
+// Validate required env vars
+if (!process.env.MONGO_URI) {
+  console.error('MONGO_URI não está definido');
+  process.exit(1);
+}
+
+if (!process.env.JWT_SECRET) {
+  console.error('JWT_SECRET não está definido');
+  process.exit(1);
+}
 
 // Connect to database
 connectDB();

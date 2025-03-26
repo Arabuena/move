@@ -17,7 +17,7 @@ services:
       - key: MONGO_URI
         sync: false  # Configurar manualmente no dashboard
       - key: JWT_SECRET
-        sync: false  # Configurar manualmente no dashboard
+        value: move_jwt_secret_2024  # Em produção, use um valor mais seguro
 
     healthCheckPath: /api/hello
     autoDeploy: true 

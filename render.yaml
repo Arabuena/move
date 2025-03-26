@@ -15,9 +15,9 @@ services:
       - key: NEXT_PUBLIC_API_URL
         value: https://move-app.onrender.com/api
       - key: MONGO_URI
-        sync: false  # Configurar manualmente no dashboard
+        value: mongodb+srv://ara100limite:ERxkG9nXZjbwvpMk@cluster0.yzf2r.mongodb.net/move-top?retryWrites=true&w=majority
       - key: JWT_SECRET
-        value: move_jwt_secret_2024  # Em produção, use um valor mais seguro
+        value: move_jwt_secret_2024
       - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
         value: AIzaSyAVe7W-B0zZa-6ePrcLfZkDzs1RGRSHSCc
 

@@ -25,7 +25,11 @@ const app = express();
 
 // CORS config
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://move-app.onrender.com'],
+  origin: [
+    'http://localhost:3000',
+    'https://move-k987.onrender.com',
+    'https://move-app.onrender.com'
+  ],
   credentials: true
 }));
 

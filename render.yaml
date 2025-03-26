@@ -13,7 +13,7 @@ services:
       - key: PORT
         value: 8080
       - key: NEXT_PUBLIC_API_URL
-        value: https://move-app.onrender.com/api
+        value: https://move-k987.onrender.com/api
       - key: MONGO_URI
         value: mongodb+srv://ara100limite:ERxkG9nXZjbwvpMk@cluster0.yzf2r.mongodb.net/move-top?retryWrites=true&w=majority
       - key: JWT_SECRET

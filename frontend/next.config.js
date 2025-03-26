@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'export',
+  distDir: 'out',
+  images: {
+    unoptimized: true
+  },
+  trailingSlash: true,
   env: {
     NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
   },
@@ -24,13 +30,7 @@ const nextConfig = {
         ]
       }
     ]
-  },
-  output: 'export',
-  distDir: 'out',
-  images: {
-    unoptimized: true
-  },
-  trailingSlash: true
+  }
 }
 
 module.exports = nextConfig 

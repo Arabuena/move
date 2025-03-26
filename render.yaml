@@ -1,0 +1,19 @@
+services:
+  - name: move-app
+    type: web
+    env: node
+    plan: starter
+    buildCommand: |
+      cd frontend && yarn install && yarn build
+      cd ../backend && yarn install
+    startCommand: cd backend && node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 8080
+      - key: NEXT_PUBLIC_API_URL
+        value: https://move-app.onrender.com/api
+
+    healthCheckPath: /api/hello
+    autoDeploy: true 

@@ -25,10 +25,12 @@ const nextConfig = {
       }
     ]
   },
-  // Configurações para build estático
-  output: 'standalone',
-  distDir: '.next',
-  poweredByHeader: false
+  output: 'export',
+  distDir: 'out',
+  images: {
+    unoptimized: true
+  },
+  trailingSlash: true
 }
 
 module.exports = nextConfig 

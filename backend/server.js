@@ -60,12 +60,12 @@ app.get('/api/test-db', async (req, res) => {
 app.use('/api/auth', require('./routes/authRoutes'));
 
 // Serve frontend static files
-app.use(express.static(path.join(__dirname, '../frontend/.next')));
+app.use(express.static(path.join(__dirname, '../frontend/out')));
 
 // All non-API routes redirect to frontend
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api/')) {
-    res.sendFile(path.join(__dirname, '../frontend/.next/server/pages/index.html'));
+    res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
   }
 });
 

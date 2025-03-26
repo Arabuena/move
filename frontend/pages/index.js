@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Map from '../components/Map';
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+
 export default function Home() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
@@ -11,7 +13,7 @@ export default function Home() {
     const fetchMessage = async () => {
       try {
         setError(null);
-        const response = await axios.get('http://localhost:5000/api/hello');
+        const response = await axios.get(`${API_URL}/hello`);
         setMessage(response.data.message);
       } catch (error) {
         console.error('Error fetching message:', error);

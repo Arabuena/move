@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import Map from '../components/Map';
 
 export default function Home() {
   const [message, setMessage] = useState('');
@@ -28,18 +29,21 @@ export default function Home() {
       minHeight: '100vh',
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
       padding: '20px'
     }}>
-      <h1>Move App</h1>
+      <h1 className="text-2xl font-bold mb-4">Move App</h1>
+      
       {loading ? (
         <p>Loading...</p>
       ) : error ? (
         <p style={{ color: 'red' }}>{error}</p>
       ) : (
-        <p>{message}</p>
+        <p className="mb-4">{message}</p>
       )}
+
+      <div className="w-full h-[400px] rounded-lg overflow-hidden">
+        <Map />
+      </div>
     </div>
   );
 } 

@@ -18,6 +18,8 @@ services:
         sync: false  # Configurar manualmente no dashboard
       - key: JWT_SECRET
         value: move_jwt_secret_2024  # Em produção, use um valor mais seguro
+      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+        value: AIzaSyAVe7W-B0zZa-6ePrcLfZkDzs1RGRSHSCc
 
     healthCheckPath: /api/hello
     autoDeploy: true 

@@ -8,11 +8,15 @@
     "mobile"
   ],
   "scripts": {
+    "dev": "concurrently \"yarn dev:backend\" \"yarn dev:frontend\"",
     "dev:backend": "yarn workspace backend dev",
     "dev:frontend": "yarn workspace frontend dev",
     "dev:mobile": "yarn workspace mobile dev",
     "build:backend": "yarn workspace backend build",
     "build:frontend": "yarn workspace frontend build",
     "build:mobile": "yarn workspace mobile build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   }
 } 

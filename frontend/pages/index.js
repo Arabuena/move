@@ -4,15 +4,17 @@ import axios from 'axios';
 export default function Home() {
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchMessage = async () => {
       try {
+        setError(null);
         const response = await axios.get('http://localhost:5000/api/hello');
         setMessage(response.data.message);
       } catch (error) {
         console.error('Error fetching message:', error);
-        setMessage('Error connecting to API');
+        setError('Erro ao conectar com o servidor. Certifique-se que o backend está rodando na porta 5000.');
       } finally {
         setLoading(false);
       }
@@ -33,6 +35,8 @@ export default function Home() {
       <h1>Move App</h1>
       {loading ? (
         <p>Loading...</p>
+      ) : error ? (
+        <p style={{ color: 'red' }}>{error}</p>
       ) : (
         <p>{message}</p>
       )}

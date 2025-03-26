@@ -5,7 +5,7 @@ const nextConfig = {
     unoptimized: true
   },
   trailingSlash: true,
-  distDir: 'out'
+  distDir: 'out'  // Diretório de saída do build
 }
 
 module.exports = nextConfig 

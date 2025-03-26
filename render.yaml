@@ -14,6 +14,10 @@ services:
         value: 8080
       - key: NEXT_PUBLIC_API_URL
         value: https://move-app.onrender.com/api
+      - key: MONGO_URI
+        sync: false  # Configurar manualmente no dashboard
+      - key: JWT_SECRET
+        sync: false  # Configurar manualmente no dashboard
 
     healthCheckPath: /api/hello
     autoDeploy: true 

@@ -11,12 +11,24 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://maps.googleapis.com; img-src 'self' data: https://*.googleapis.com https://*.gstatic.com; connect-src 'self' https://move-k987.onrender.com https://*.googleapis.com"
+            value: [
+              "default-src 'self'",
+              "style-src 'self' 'unsafe-inline'",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com",
+              "img-src 'self' data: https://*.googleapis.com https://*.gstatic.com",
+              "font-src 'self' data:",
+              "connect-src 'self' https://move-k987.onrender.com https://*.googleapis.com",
+              "frame-src 'self' https://*.googleapis.com"
+            ].join('; ')
           }
         ]
       }
     ]
-  }
+  },
+  // Configurações para build estático
+  output: 'standalone',
+  distDir: '.next',
+  poweredByHeader: false
 }
 
 module.exports = nextConfig 

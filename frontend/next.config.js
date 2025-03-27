@@ -14,13 +14,12 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              "default-src 'self'",
-              "base-uri 'self'",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
+              "default-src 'self' https://*.crisp.chat wss://*.crisp.chat",
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
               "img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' wss://*.crisp.chat https://*.googleapis.com https://move-k987.onrender.com/api",
+              "connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat",
               "frame-src 'self' https://*.googleapis.com https://*.crisp.chat",
               "worker-src 'self' blob:",
               "child-src blob:",
@@ -36,11 +35,15 @@ const nextConfig = {
           },
           {
             key: 'X-Frame-Options',
-            value: 'DENY'
+            value: 'SAMEORIGIN'
           },
           {
             key: 'X-XSS-Protection',
             value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin'
           }
         ]
       }

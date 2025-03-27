@@ -1,59 +1,35 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import Map from '../components/Map';
-import { GoogleMapsWrapper } from '../components/GoogleMapsWrapper';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import { motion } from 'framer-motion';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-export default function Home() {
-  const [message, setMessage] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+export default function SplashScreen() {
+  const router = useRouter();
 
   useEffect(() => {
-    const fetchMessage = async () => {
-      try {
-        setError(null);
-        const response = await axios.get('/api/hello', {
-          withCredentials: true,
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        setMessage(response.data.message);
-      } catch (error) {
-        console.error('Error fetching message:', error);
-        setError('Erro ao conectar com o servidor: ' + (error.response?.data?.message || error.message));
-      } finally {
-        setLoading(false);
+    // Após 2 segundos, verifica se é primeiro acesso
+    const timer = setTimeout(() => {
+      const isFirstTime = !localStorage.getItem('onboardingComplete');
+      if (isFirstTime) {
+        router.push('/passenger/onboarding');
+      } else {
+        router.push('/passenger/login');
       }
-    };
+    }, 2000);
 
-    fetchMessage();
-  }, []);
+    return () => clearTimeout(timer);
+  }, [router]);
 
   return (
-    <div style={{ 
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '20px'
-    }}>
-      <h1 className="text-2xl font-bold mb-4">Move App</h1>
-      
-      {loading ? (
-        <p>Loading...</p>
-      ) : error ? (
-        <p style={{ color: 'red' }}>{error}</p>
-      ) : (
-        <p className="mb-4">{message}</p>
-      )}
-
-      <div className="w-full h-[400px] rounded-lg overflow-hidden">
-        <GoogleMapsWrapper>
-          <Map />
-        </GoogleMapsWrapper>
-      </div>
+    <div className="h-screen w-screen flex items-center justify-center bg-purple-700">
+      <motion.div
+        initial={{ scale: 0.5, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="text-center"
+      >
+        <h1 className="text-4xl font-bold text-white mb-2">Move</h1>
+        <p className="text-purple-200">Seu destino, nossa prioridade</p>
+      </motion.div>
     </div>
   );
 } 

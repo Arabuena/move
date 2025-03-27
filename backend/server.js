@@ -28,9 +28,11 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'https://move-k987.onrender.com',
-    'https://move-app.onrender.com'
+    'https://move-app.onrender.com',
+    'https://move-k987.onrender.com'
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
 }));
 
 app.use(express.json());

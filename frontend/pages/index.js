@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Map from '../components/Map';
+import { GoogleMapsWrapper } from '../components/GoogleMapsWrapper';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -46,7 +47,9 @@ export default function Home() {
       )}
 
       <div className="w-full h-[400px] rounded-lg overflow-hidden">
-        <Map />
+        <GoogleMapsWrapper>
+          <Map />
+        </GoogleMapsWrapper>
       </div>
     </div>
   );

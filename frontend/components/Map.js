@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -12,11 +12,6 @@ const center = {
 };
 
 function Map() {
-  const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-  });
-
   const [map, setMap] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
@@ -27,7 +22,7 @@ function Map() {
     setMap(null);
   }, []);
 
-  return isLoaded ? (
+  return (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
@@ -35,9 +30,14 @@ function Map() {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      <Marker position={center} />
+      <Marker 
+        position={center}
+        options={{
+          optimized: true
+        }}
+      />
     </GoogleMap>
-  ) : <div>Carregando...</div>;
+  );
 }
 
 export default Map; 

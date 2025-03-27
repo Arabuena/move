@@ -28,12 +28,21 @@ app.use(cors({
   origin: [
     'http://localhost:3000',
     'https://move-k987.onrender.com',
-    'https://move-app.onrender.com',
-    'https://move-k987.onrender.com'
+    'https://move-app.onrender.com'
   ],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Adicione um middleware para definir os headers manualmente
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://move-k987.onrender.com');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  next();
+});
 
 app.use(express.json());
 

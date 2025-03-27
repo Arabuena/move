@@ -2,17 +2,19 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 
-export default function SplashScreen() {
+export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Após 2 segundos, verifica se é primeiro acesso
+    // Verifica se já passou pelo onboarding
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    
+    // Timer para mostrar a splash screen
     const timer = setTimeout(() => {
-      const isFirstTime = !localStorage.getItem('onboardingComplete');
-      if (isFirstTime) {
-        router.push('/passenger/onboarding');
-      } else {
+      if (hasSeenOnboarding) {
         router.push('/passenger/login');
+      } else {
+        router.push('/passenger/onboarding');
       }
     }, 2000);
 
@@ -20,15 +22,18 @@ export default function SplashScreen() {
   }, [router]);
 
   return (
-    <div className="h-screen w-screen flex items-center justify-center bg-purple-700">
+    <div className="min-h-screen bg-primary flex items-center justify-center">
       <motion.div
         initial={{ scale: 0.5, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{
+          duration: 0.5,
+          ease: "easeOut"
+        }}
         className="text-center"
       >
-        <h1 className="text-4xl font-bold text-white mb-2">Move</h1>
-        <p className="text-purple-200">Seu destino, nossa prioridade</p>
+        <h1 className="text-5xl font-bold text-white mb-4">Move</h1>
+        <p className="text-primary-200">Seu app de mobilidade</p>
       </motion.div>
     </div>
   );

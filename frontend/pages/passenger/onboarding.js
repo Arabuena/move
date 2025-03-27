@@ -4,19 +4,19 @@ import { useRouter } from 'next/router';
 
 const slides = [
   {
-    title: "Bem-vindo ao Move",
-    description: "A maneira mais fácil de chegar onde você precisa",
-    image: "/onboarding/slide1.png"
+    title: 'Bem-vindo ao Move',
+    description: 'Sua nova forma de se locomover pela cidade',
+    image: '/onboarding/slide1.png'
   },
   {
-    title: "Viagens Seguras",
-    description: "Motoristas verificados e monitoramento em tempo real",
-    image: "/onboarding/slide2.png"
+    title: 'Viagens Seguras',
+    description: 'Motoristas verificados e monitoramento em tempo real',
+    image: '/onboarding/slide2.png'
   },
   {
-    title: "Pagamento Fácil",
-    description: "Várias formas de pagamento para sua conveniência",
-    image: "/onboarding/slide3.png"
+    title: 'Pagamento Fácil',
+    description: 'Pague com cartão ou dinheiro, você escolhe',
+    image: '/onboarding/slide3.png'
   }
 ];
 
@@ -24,42 +24,64 @@ export default function Onboarding() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const router = useRouter();
 
-  const nextSlide = () => {
-    if (currentSlide === slides.length - 1) {
-      localStorage.setItem('onboardingComplete', 'true');
-      router.push('/passenger/login');
-    } else {
+  const handleNext = () => {
+    if (currentSlide < slides.length - 1) {
       setCurrentSlide(prev => prev + 1);
+    } else {
+      // Marca que já viu o onboarding
+      localStorage.setItem('hasSeenOnboarding', 'true');
+      router.push('/passenger/login');
     }
   };
 
   return (
-    <div className="h-screen w-screen bg-white">
+    <div className="min-h-screen bg-white">
       <AnimatePresence mode="wait">
         <motion.div
           key={currentSlide}
-          initial={{ x: 300, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          exit={{ x: -300, opacity: 0 }}
-          className="h-full flex flex-col items-center justify-center p-6"
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          className="h-screen flex flex-col"
         >
-          <img
-            src={slides[currentSlide].image}
-            alt={slides[currentSlide].title}
-            className="w-64 h-64 object-contain mb-8"
-          />
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">
-            {slides[currentSlide].title}
-          </h2>
-          <p className="text-gray-600 text-center mb-8">
-            {slides[currentSlide].description}
-          </p>
-          <button
-            onClick={nextSlide}
-            className="bg-purple-700 text-white px-8 py-3 rounded-full"
-          >
-            {currentSlide === slides.length - 1 ? 'Começar' : 'Próximo'}
-          </button>
+          {/* Imagem */}
+          <div className="flex-1 relative bg-primary">
+            <img
+              src={slides[currentSlide].image}
+              alt={slides[currentSlide].title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+
+          {/* Conteúdo */}
+          <div className="p-8 bg-white">
+            <h2 className="text-2xl font-bold mb-4">
+              {slides[currentSlide].title}
+            </h2>
+            <p className="text-gray-600 mb-8">
+              {slides[currentSlide].description}
+            </p>
+
+            {/* Indicadores */}
+            <div className="flex space-x-2 mb-8">
+              {slides.map((_, index) => (
+                <div
+                  key={index}
+                  className={`h-1 rounded-full flex-1 ${
+                    index === currentSlide ? 'bg-primary' : 'bg-gray-200'
+                  }`}
+                />
+              ))}
+            </div>
+
+            {/* Botão */}
+            <button
+              onClick={handleNext}
+              className="w-full bg-primary text-white py-4 rounded-lg font-medium"
+            >
+              {currentSlide === slides.length - 1 ? 'Começar' : 'Próximo'}
+            </button>
+          </div>
         </motion.div>
       </AnimatePresence>
     </div>

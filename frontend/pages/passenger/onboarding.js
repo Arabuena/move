@@ -6,17 +6,17 @@ const slides = [
   {
     title: 'Bem-vindo ao Move',
     description: 'Sua nova forma de se locomover pela cidade',
-    image: '/onboarding/slide1.png'
+    image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%236366f1"/%3E%3C/svg%3E'
   },
   {
     title: 'Viagens Seguras',
     description: 'Motoristas verificados e monitoramento em tempo real',
-    image: '/onboarding/slide2.png'
+    image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%236366f1"/%3E%3C/svg%3E'
   },
   {
     title: 'Pagamento Fácil',
     description: 'Pague com cartão ou dinheiro, você escolhe',
-    image: '/onboarding/slide3.png'
+    image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"%3E%3Crect width="100" height="100" fill="%236366f1"/%3E%3C/svg%3E'
   }
 ];
 

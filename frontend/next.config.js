@@ -18,32 +18,24 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              // Permitir recursos do mesmo domínio e do chat
-              "default-src 'self' https://*.crisp.chat wss://*.crisp.chat",
-              // Permitir todos os estilos necessários
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
+              // Definir política base mais permissiva
+              "default-src *",
+              // Permitir estilos inline e de fontes
+              "style-src * 'unsafe-inline'",
               // Permitir scripts necessários
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
-              // Permitir imagens de várias fontes
-              "img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat",
+              "script-src * 'unsafe-inline' 'unsafe-eval'",
+              // Permitir imagens de qualquer fonte
+              "img-src * data: blob:",
               // Permitir fontes
-              "font-src 'self' data: https://fonts.gstatic.com",
+              "font-src * data:",
               // Permitir conexões
-              "connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat",
-              // Permitir iframes
-              "frame-src 'self' https://*.googleapis.com https://*.crisp.chat",
+              "connect-src * wss:",
+              // Permitir frames
+              "frame-src *",
               // Permitir workers
               "worker-src 'self' blob:",
-              // Permitir child frames
-              "child-src blob:",
-              // Restringir formulários ao mesmo domínio
-              "form-action 'self'",
-              // Permitir manifesto PWA
-              "manifest-src 'self'",
-              // Permitir mídia do chat
-              "media-src 'self' https://*.crisp.chat",
-              // Bloquear objetos
-              "object-src 'none'"
+              // Permitir mídia
+              "media-src *"
             ].join('; ')
           },
           {
@@ -53,14 +45,6 @@ const nextConfig = {
           {
             key: 'X-Frame-Options',
             value: 'SAMEORIGIN'
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block'
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin'
           }
         ]
       }

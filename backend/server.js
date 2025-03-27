@@ -23,24 +23,27 @@ connectDB();
 
 const app = express();
 
-// CORS config
-app.use(cors({
-  origin: [
-    'http://localhost:3000',
-    'https://move-k987.onrender.com',
-    'https://move-app.onrender.com'
-  ],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
-
-// Adicione um middleware para definir os headers manualmente
+// CORS config - antes de todas as rotas
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://move-k987.onrender.com');
-  res.header('Access-Control-Allow-Credentials', 'true');
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'https://move-k987.onrender.com'  // Apenas este domínio em produção
+  ];
+
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
   next();
 });
 

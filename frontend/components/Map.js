@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { GoogleMap, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
 
 const containerStyle = {
   width: '100%',
@@ -15,6 +15,17 @@ function Map() {
   const [map, setMap] = useState(null);
 
   const onLoad = useCallback(function callback(map) {
+    const position = center;
+    
+    // Criar o marcador avançado quando o mapa carregar
+    if (window.google && window.google.maps.marker) {
+      const { AdvancedMarkerElement } = window.google.maps.marker;
+      new AdvancedMarkerElement({
+        map,
+        position,
+      });
+    }
+    
     setMap(map);
   }, []);
 
@@ -29,14 +40,7 @@ function Map() {
       zoom={10}
       onLoad={onLoad}
       onUnmount={onUnmount}
-    >
-      <Marker 
-        position={center}
-        options={{
-          optimized: true
-        }}
-      />
-    </GoogleMap>
+    />
   );
 }
 

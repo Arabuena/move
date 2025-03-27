@@ -20,7 +20,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
               "img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat",
+              "connect-src 'self' wss://*.crisp.chat https://*.googleapis.com https://move-k987.onrender.com/api",
               "frame-src 'self' https://*.googleapis.com https://*.crisp.chat",
               "worker-src 'self' blob:",
               "child-src blob:",
@@ -29,6 +29,18 @@ const nextConfig = {
               "media-src 'self' https://*.crisp.chat",
               "object-src 'none'"
             ].join('; ')
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
           }
         ]
       }

@@ -1,17 +1,9 @@
 import { Html, Head, Main, NextScript } from 'next/document'
-import crypto from 'crypto'
-
-function generateNonce() {
-  return crypto.randomBytes(16).toString('base64')
-}
 
 export default function Document() {
-  const nonce = generateNonce()
-
   return (
     <Html lang="pt-BR">
-      <Head nonce={nonce}>
-        <meta httpEquiv="Content-Security-Policy" content={`script-src 'self' 'nonce-${nonce}' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://*.crisp.chat`} />
+      <Head>
         <link rel="icon" type="image/svg+xml" href="/icon.svg" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -22,7 +14,7 @@ export default function Document() {
       </Head>
       <body>
         <Main />
-        <NextScript nonce={nonce} />
+        <NextScript />
       </body>
     </Html>
   )

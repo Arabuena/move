@@ -35,8 +35,12 @@ services:
     startCommand: cd frontend && npm start
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://move-k987.onrender.com
+        value: https://move-k987.onrender.com/api
       - key: NODE_ENV
         value: production
-      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-        fromGroup: move-app 
+      - key: PORT
+        value: 3000
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html 

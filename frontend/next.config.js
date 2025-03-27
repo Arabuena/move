@@ -8,16 +8,15 @@ const nextConfig = {
   async headers() {
     return [
       {
-        // Aplicar headers para todas as rotas
         source: '/:path*',
         headers: [
           {
             key: 'Content-Security-Policy',
             value: [
               // Permitir recursos do mesmo domínio e do chat
-              "default-src 'self'",
+              "default-src 'self' https://*.crisp.chat wss://*.crisp.chat",
               // Permitir todos os estilos necessários
-              "style-src * 'unsafe-inline'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
               // Permitir scripts necessários
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
               // Permitir imagens de várias fontes
@@ -63,15 +62,22 @@ const nextConfig = {
     ]
   },
   // Configuração para o Render.com
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
-    NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-  },
+  basePath: '',
   async rewrites() {
     return [
       {
         source: '/api/:path*',
         destination: 'https://move-k987.onrender.com/api/:path*'
+      }
+    ]
+  },
+  // Configuração para fallback de páginas
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/passenger/login',
+        permanent: false,
       }
     ]
   },
@@ -82,6 +88,6 @@ const nextConfig = {
     });
     return config;
   }
-}
+};
 
-module.exports = nextConfig 
+module.exports = nextConfig; 

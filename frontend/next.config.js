@@ -14,18 +14,31 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              "default-src 'self' https://*.crisp.chat wss://*.crisp.chat",
+              // Permitir recursos do mesmo domínio e do chat
+              "default-src 'self'",
+              // Permitir todos os estilos necessários
+              "style-src * 'unsafe-inline'",
+              // Permitir scripts necessários
               "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
+              // Permitir imagens de várias fontes
               "img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat",
+              // Permitir fontes
               "font-src 'self' data: https://fonts.gstatic.com",
+              // Permitir conexões
               "connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat",
+              // Permitir iframes
               "frame-src 'self' https://*.googleapis.com https://*.crisp.chat",
+              // Permitir workers
               "worker-src 'self' blob:",
+              // Permitir child frames
               "child-src blob:",
+              // Restringir formulários ao mesmo domínio
               "form-action 'self'",
+              // Permitir manifesto PWA
               "manifest-src 'self'",
+              // Permitir mídia do chat
               "media-src 'self' https://*.crisp.chat",
+              // Bloquear objetos
               "object-src 'none'"
             ].join('; ')
           },

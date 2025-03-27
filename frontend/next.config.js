@@ -12,7 +12,15 @@ const nextConfig = {
         headers: [
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;"
+            value: [
+              "default-src 'self'",
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com",
+              "img-src 'self' data: https://*.googleapis.com https://*.gstatic.com",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "connect-src 'self' https://move-k987.onrender.com https://*.googleapis.com",
+              "frame-src 'self' https://*.googleapis.com"
+            ].join('; ')
           }
         ]
       }

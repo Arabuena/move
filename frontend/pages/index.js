@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Map from '../components/Map';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Home() {
   const [message, setMessage] = useState('');
@@ -13,11 +13,13 @@ export default function Home() {
     const fetchMessage = async () => {
       try {
         setError(null);
-        const response = await axios.get(`${API_URL}/hello`);
+        const response = await axios.get(`${API_URL}/hello`, {
+          withCredentials: true
+        });
         setMessage(response.data.message);
       } catch (error) {
         console.error('Error fetching message:', error);
-        setError('Erro ao conectar com o servidor. Certifique-se que o backend está rodando na porta 5000.');
+        setError('Erro ao conectar com o servidor: ' + error.message);
       } finally {
         setLoading(false);
       }

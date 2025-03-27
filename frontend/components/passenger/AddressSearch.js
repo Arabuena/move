@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { MapPinIcon, CircleIcon } from '@heroicons/react/24/solid';
+import { MapPinIcon } from '@heroicons/react/24/solid';
+import { StopCircleIcon as CircleIcon } from '@heroicons/react/24/solid';
 
 export default function AddressSearch() {
   const [isExpanded, setIsExpanded] = useState(false);

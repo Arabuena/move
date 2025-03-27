@@ -5,6 +5,11 @@ const nextConfig = {
     unoptimized: true,
     domains: ['move-k987.onrender.com']
   },
+  experimental: {
+    turbotrace: {
+      logLevel: 'error'
+    }
+  },
   async headers() {
     return [
       {

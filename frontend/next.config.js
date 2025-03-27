@@ -18,24 +18,19 @@ const nextConfig = {
           {
             key: 'Content-Security-Policy',
             value: [
-              // Definir política base mais permissiva
-              "default-src *",
-              // Permitir estilos inline e de fontes
-              "style-src * 'unsafe-inline'",
-              // Permitir scripts necessários
-              "script-src * 'unsafe-inline' 'unsafe-eval'",
-              // Permitir imagens de qualquer fonte
-              "img-src * data: blob:",
-              // Permitir fontes
-              "font-src * data:",
-              // Permitir conexões
-              "connect-src * wss:",
-              // Permitir frames
-              "frame-src *",
-              // Permitir workers
+              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat",
+              "img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat",
+              "font-src 'self' data: https://fonts.gstatic.com",
+              "connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat",
+              "frame-src 'self' https://*.googleapis.com https://*.crisp.chat",
               "worker-src 'self' blob:",
-              // Permitir mídia
-              "media-src *"
+              "child-src blob:",
+              "form-action 'self'",
+              "manifest-src 'self'",
+              "media-src 'self' https://*.crisp.chat",
+              "object-src 'none'",
+              "default-src 'self' https://*.crisp.chat wss://*.crisp.chat"
             ].join('; ')
           },
           {

@@ -33,7 +33,12 @@ services:
         value: production
       - key: PORT
         value: 3000
+    domains:
+      - move-k987.onrender.com
     routes:
       - type: rewrite
+        source: /api/*
+        destination: https://move-k987.onrender.com/api/:splat
+      - type: rewrite
         source: /*
-        destination: / 
+        destination: /index.html 

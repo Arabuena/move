@@ -1,4 +1,5 @@
 services:
+  # Backend API em https://move-app.onrender.com
   - name: move-app
     type: web
     env: node
@@ -19,6 +20,7 @@ services:
     healthCheckPath: /api/hello
     autoDeploy: true
 
+  # Frontend estático em https://move-k987.onrender.com
   - name: move-frontend
     type: static
     buildCommand: cd frontend && yarn install && yarn build && yarn export

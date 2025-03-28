@@ -29,23 +29,22 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuração CORS - ANTES de todas as rotas
-app.use(cors({
-  origin: 'https://move-k987.onrender.com',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-CSRF-Token'],
-  exposedHeaders: ['set-cookie']
-}));
+// CORS simples
+app.use(cors());
 
-// Middleware para preflight requests
-app.options('*', cors({
-  origin: 'https://move-k987.onrender.com',
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'X-CSRF-Token'],
-  exposedHeaders: ['set-cookie']
-}));
+// Headers de segurança
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+  // Intercepta preflight
+  if ('OPTIONS' === req.method) {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 
 // Rotas da API
 app.use('/api', require('./routes/api'));

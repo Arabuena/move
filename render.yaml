@@ -20,6 +20,16 @@ services:
         value: https://move-app.onrender.com
     healthCheckPath: /api/hello
     autoDeploy: true
+    headers:
+      - path: /*
+        name: Access-Control-Allow-Origin
+        value: "*"
+      - path: /*
+        name: Access-Control-Allow-Methods
+        value: "GET,PUT,POST,DELETE,OPTIONS"
+      - path: /*
+        name: Access-Control-Allow-Headers
+        value: "Content-Type, Authorization, Content-Length, X-Requested-With"
 
   # Frontend estático em https://move-k987.onrender.com
   - name: move-frontend

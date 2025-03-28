@@ -25,65 +25,32 @@ connectDB();
 
 const app = express();
 
-// CORS config
-app.use(cors({
-  origin: process.env.FRONTEND_URL,
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
-}));
-
-// Headers de segurança
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
-  
-  // Preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
-  next();
-});
-
+// Middleware básico
 app.use(express.json());
-
-// Middleware para processar formulários
 app.use(express.urlencoded({ extended: true }));
 
-// API Routes
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello from Move API!' });
-});
+// Configuração CORS simplificada
+const corsOptions = {
+  origin: true, // Reflete o Origin da requisição se permitido
+  credentials: true, // Permite credenciais
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
 
-// Teste de conexão com o MongoDB
-app.get('/api/test-db', async (req, res) => {
-  try {
-    const collections = await mongoose.connection.db.collections();
-    res.json({ 
-      message: 'Conexão com MongoDB estabelecida',
-      collections: collections.map(c => c.collectionName)
-    });
-  } catch (error) {
-    res.status(500).json({ 
-      error: 'Erro ao conectar com MongoDB',
-      details: error.message 
-    });
-  }
-});
+// Aplica CORS em todas as rotas
+app.use(cors(corsOptions));
 
 // Rotas da API
-app.use('/api/auth', require('./routes/authRoutes'));
+app.use('/api', require('./routes/api')); // Mova todas as rotas API para um arquivo separado
 
-// Serve frontend static files
+// Serve arquivos estáticos
 app.use(express.static(path.join(__dirname, '../frontend/out')));
 
-// All non-API routes redirect to frontend
+// Rota catch-all para SPA
 app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api/')) {
-    res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
-  }
+  res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
 });
 
 // Rota para renderizar o formulário

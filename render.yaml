@@ -3,7 +3,6 @@ services:
   - name: move-app
     type: web
     env: node
-    plan: starter
     buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
     startCommand: cd backend && npm start
     envVars:
@@ -15,10 +14,10 @@ services:
         fromGroup: move-app
       - key: JWT_SECRET
         fromGroup: move-app
-      - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
-        fromGroup: move-app
       - key: FRONTEND_URL
         value: https://move-k987.onrender.com
+      - key: BACKEND_URL
+        value: https://move-app.onrender.com
     healthCheckPath: /api/hello
     autoDeploy: true
 
@@ -29,9 +28,7 @@ services:
     publishDir: frontend/out
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://move-k987.onrender.com/api
-      - key: NODE_ENV
-        value: production
+        value: https://move-app.onrender.com/api
     headers:
       - path: /*
         name: Cache-Control

@@ -9,17 +9,6 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 
-// Validate required env vars
-if (!process.env.MONGO_URI) {
-  console.error('MONGO_URI não está definido');
-  process.exit(1);
-}
-
-if (!process.env.JWT_SECRET) {
-  console.error('JWT_SECRET não está definido');
-  process.exit(1);
-}
-
 // Connect to database
 connectDB();
 
@@ -38,14 +27,17 @@ app.use((req, res, next) => {
 
 // Rota raiz
 app.get('/', (req, res) => {
-  console.log('Root route accessed');
-  res.send('Server is running');
+  res.send('Hello from Move API!');
 });
 
 // Rota de ping
 app.get('/ping', (req, res) => {
-  console.log('Ping route accessed');
   res.send('pong');
+});
+
+// Rota de teste
+app.get('/test', (req, res) => {
+  res.json({ message: 'Test route working!' });
 });
 
 // Rota de health check
@@ -189,9 +181,24 @@ app.post('/api/auth/register', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+
+// Inicia o servidor
+const server = app.listen(PORT, () => {
   console.log('==================================');
   console.log(`Server running on port ${PORT}`);
   console.log('Server started at:', new Date().toISOString());
   console.log('==================================');
+});
+
+// Tratamento de erros
+server.on('error', (error) => {
+  console.error('Server error:', error);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
 }); 

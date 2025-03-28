@@ -12,14 +12,6 @@ const nextConfig = {
       logLevel: 'error'
     }
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://move-k987.onrender.com/api/:path*'
-      }
-    ]
-  },
   async redirects() {
     return [
       {

@@ -34,6 +34,18 @@ services:
       - path: /*
         name: Cache-Control
         value: public, max-age=0, must-revalidate
+      - path: /_next/static/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /_next/static/*.js
+        name: Content-Type
+        value: application/javascript
+      - path: /_next/static/*.css
+        name: Content-Type
+        value: text/css
+      - path: /_next/static/*.woff2
+        name: Content-Type
+        value: font/woff2
     domains:
       - move-k987.onrender.com
     routes:

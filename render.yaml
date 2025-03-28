@@ -17,6 +17,8 @@ services:
         fromGroup: move-app
       - key: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
         fromGroup: move-app
+      - key: FRONTEND_URL
+        value: https://move-k987.onrender.com
     healthCheckPath: /api/hello
     autoDeploy: true
 

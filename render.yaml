@@ -4,7 +4,7 @@ services:
     env: node
     plan: starter
     buildCommand: |
-      cd frontend && yarn install --production=false && yarn build
+      cd frontend && yarn install --production=false && yarn build && yarn export
       cd ../backend && yarn install
     startCommand: cd backend && node server.js
     envVars:
@@ -22,17 +22,18 @@ services:
     autoDeploy: true
 
   - name: move-frontend
-    type: web
-    env: node
-    buildCommand: cd frontend && npm install && npm run build
-    startCommand: cd frontend && npm start
+    type: static
+    buildCommand: cd frontend && yarn install && yarn build && yarn export
+    publishDir: frontend/out
     envVars:
       - key: NEXT_PUBLIC_API_URL
         value: https://move-k987.onrender.com/api
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 3000
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: public, max-age=0, must-revalidate
     domains:
       - move-k987.onrender.com
     routes:

@@ -5,6 +5,8 @@ const nextConfig = {
     unoptimized: true,
     domains: ['move-k987.onrender.com']
   },
+  output: 'export',
+  trailingSlash: true,
   experimental: {
     turbotrace: {
       logLevel: 'error'

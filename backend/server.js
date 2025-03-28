@@ -6,6 +6,8 @@ const cors = require('cors');
 const path = require('path');
 const connectDB = require('./config/database');
 const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const User = require('./models/user');
 
 // Validate required env vars
 if (!process.env.MONGO_URI) {
@@ -32,6 +34,9 @@ app.use(cors({
 }));
 
 app.use(express.json());
+
+// Middleware para processar formulários
+app.use(express.urlencoded({ extended: true }));
 
 // API Routes
 app.get('/api/hello', (req, res) => {
@@ -64,6 +69,87 @@ app.use(express.static(path.join(__dirname, '../frontend/out')));
 app.get('*', (req, res) => {
   if (!req.path.startsWith('/api/')) {
     res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
+  }
+});
+
+// Rota para renderizar o formulário
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/login.html'));
+});
+
+// Rota para processar o login
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    
+    // Validação básica
+    if (!email || !password) {
+      return res.redirect('/login?error=Preencha todos os campos');
+    }
+
+    // Busca usuário no banco
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.redirect('/login?error=Usuário não encontrado');
+    }
+
+    // Verifica senha
+    const isValid = await user.comparePassword(password);
+    if (!isValid) {
+      return res.redirect('/login?error=Senha incorreta');
+    }
+
+    // Gera token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    // Redireciona com token
+    res.cookie('token', token, { httpOnly: true });
+    res.redirect('/passenger/home');
+  } catch (error) {
+    console.error('Erro no login:', error);
+    res.redirect('/login?error=Erro ao fazer login');
+  }
+});
+
+// Rota para página de registro
+app.get('/register', (req, res) => {
+  res.sendFile(path.join(__dirname, 'views/register.html'));
+});
+
+// Rota para processar o registro
+app.post('/api/auth/register', async (req, res) => {
+  try {
+    const { name, email, phone, password } = req.body;
+    
+    // Validação básica
+    if (!name || !email || !phone || !password) {
+      return res.redirect('/register?error=Preencha todos os campos');
+    }
+
+    // Verifica se usuário já existe
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.redirect('/register?error=Email já cadastrado');
+    }
+
+    // Cria novo usuário
+    const user = new User({
+      name,
+      email,
+      phone,
+      password // será hasheada pelo middleware do mongoose
+    });
+    await user.save();
+
+    // Gera token
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+
+    // Redireciona com token
+    res.cookie('token', token, { httpOnly: true });
+    res.redirect('/passenger/home');
+  } catch (error) {
+    console.error('Erro no registro:', error);
+    res.redirect('/register?error=Erro ao criar conta');
   }
 });
 

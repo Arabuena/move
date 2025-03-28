@@ -61,21 +61,23 @@ export default function Login() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+        <form 
+          action="https://move-app.onrender.com/api/auth/login" 
+          method="POST"
+          className="space-y-6"
+        >
           {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Email
             </label>
             <input
-              {...register('email')}
+              name="email"
               type="email"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg"
               placeholder="Seu email"
+              required
             />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
-            )}
           </div>
 
           {/* Senha */}
@@ -84,14 +86,12 @@ export default function Login() {
               Senha
             </label>
             <input
-              {...register('password')}
+              name="password"
               type="password"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg"
               placeholder="Sua senha"
+              required
             />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-600">{errors.password.message}</p>
-            )}
           </div>
 
           {/* Esqueci a senha */}
@@ -107,10 +107,9 @@ export default function Login() {
           {/* Botão Entrar */}
           <button
             type="submit"
-            disabled={isLoading}
-            className="w-full bg-primary text-white py-3 rounded-lg font-medium disabled:opacity-50"
+            className="w-full bg-primary text-white py-3 rounded-lg font-medium"
           >
-            {isLoading ? 'Entrando...' : 'Entrar'}
+            Entrar
           </button>
 
           {/* Divisor */}

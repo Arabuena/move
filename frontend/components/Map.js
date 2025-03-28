@@ -1,47 +1,42 @@
-import { useCallback, useState } from 'react';
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api';
+import { GoogleMap, Marker } from '@react-google-maps/api';
+import { useState, useCallback } from 'react';
 
-const containerStyle = {
+const mapContainerStyle = {
   width: '100%',
-  height: '400px'
+  height: '100vh',
 };
 
 const center = {
-  lat: -23.550520,  // São Paulo
-  lng: -46.633308
+  lat: -23.5505,  // São Paulo
+  lng: -46.6333,
 };
 
-function Map() {
+const options = {
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+
+export default function Map() {
   const [map, setMap] = useState(null);
 
-  const onLoad = useCallback(function callback(map) {
-    const position = center;
-    
-    // Criar o marcador avançado quando o mapa carregar
-    if (window.google && window.google.maps.marker) {
-      const { AdvancedMarkerElement } = window.google.maps.marker;
-      new AdvancedMarkerElement({
-        map,
-        position,
-      });
-    }
-    
+  const onLoad = useCallback((map) => {
     setMap(map);
   }, []);
 
-  const onUnmount = useCallback(function callback(map) {
+  const onUnmount = useCallback(() => {
     setMap(null);
   }, []);
 
   return (
     <GoogleMap
-      mapContainerStyle={containerStyle}
+      mapContainerStyle={mapContainerStyle}
+      zoom={15}
       center={center}
-      zoom={10}
+      options={options}
       onLoad={onLoad}
       onUnmount={onUnmount}
-    />
+    >
+      {/* Marcadores serão adicionados aqui */}
+    </GoogleMap>
   );
-}
-
-export default Map; 
+} 

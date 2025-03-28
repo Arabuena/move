@@ -1,73 +1,64 @@
 import { useState } from 'react';
-import { MapPinIcon } from '@heroicons/react/24/solid';
-import { StopCircleIcon as CircleIcon } from '@heroicons/react/24/solid';
+import { Autocomplete } from '@react-google-maps/api';
 
 export default function AddressSearch() {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+
+  const handleOriginSelect = (place) => {
+    if (place.formatted_address) {
+      setOrigin(place.formatted_address);
+    }
+  };
+
+  const handleDestinationSelect = (place) => {
+    if (place.formatted_address) {
+      setDestination(place.formatted_address);
+    }
+  };
 
   return (
-    <div className="absolute top-0 left-0 right-0 bg-white shadow-lg rounded-b-2xl p-4 transition-all">
-      <div className={`${isExpanded ? 'h-64' : 'h-auto'}`}>
-        {/* Barra de Pesquisa Colapsada */}
-        {!isExpanded && (
-          <div 
-            onClick={() => setIsExpanded(true)}
-            className="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg"
+    <div className="p-4">
+      <div className="bg-white rounded-xl shadow-lg p-4 space-y-4">
+        {/* Origem */}
+        <div className="flex items-center space-x-3">
+          <div className="w-2 h-2 rounded-full bg-primary" />
+          <Autocomplete
+            onLoad={(autocomplete) => {
+              autocomplete.addListener('place_changed', () => {
+                handleOriginSelect(autocomplete.getPlace());
+              });
+            }}
           >
-            <MapPinIcon className="w-5 h-5 text-primary" />
-            <span className="text-gray-500">Para onde você quer ir?</span>
-          </div>
-        )}
+            <input
+              type="text"
+              placeholder="Onde você está?"
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
+              className="w-full p-2 text-gray-700 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </Autocomplete>
+        </div>
 
-        {/* Formulário Expandido */}
-        {isExpanded && (
-          <div className="space-y-4">
-            {/* Botão Voltar */}
-            <button 
-              onClick={() => setIsExpanded(false)}
-              className="text-gray-500"
-            >
-              ← Voltar
-            </button>
-
-            {/* Campo Origem */}
-            <div className="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg">
-              <CircleIcon className="w-3 h-3 text-primary" />
-              <input
-                type="text"
-                placeholder="Qual é o local de partida?"
-                className="bg-transparent w-full outline-none"
-              />
-            </div>
-
-            {/* Campo Destino */}
-            <div className="flex items-center space-x-3 p-3 bg-gray-100 rounded-lg">
-              <MapPinIcon className="w-5 h-5 text-primary" />
-              <input
-                type="text"
-                placeholder="Para onde você quer ir?"
-                className="bg-transparent w-full outline-none"
-              />
-            </div>
-
-            {/* Endereços Recentes/Favoritos */}
-            <div className="space-y-2">
-              <h3 className="text-sm font-medium text-gray-500">Recentes</h3>
-              {['Casa', 'Trabalho', 'Academia'].map((place) => (
-                <button
-                  key={place}
-                  className="flex items-center space-x-3 w-full p-3 hover:bg-gray-50 rounded-lg"
-                >
-                  <ClockIcon className="w-5 h-5 text-gray-400" />
-                  <div className="text-left">
-                    <p className="font-medium">{place}</p>
-                    <p className="text-sm text-gray-500">Endereço completo aqui</p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </div>
-        )}
+        {/* Destino */}
+        <div className="flex items-center space-x-3">
+          <div className="w-2 h-2 rounded-full bg-primary" />
+          <Autocomplete
+            onLoad={(autocomplete) => {
+              autocomplete.addListener('place_changed', () => {
+                handleDestinationSelect(autocomplete.getPlace());
+              });
+            }}
+          >
+            <input
+              type="text"
+              placeholder="Para onde vamos?"
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
+              className="w-full p-2 text-gray-700 bg-gray-50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+            />
+          </Autocomplete>
+        </div>
       </div>
     </div>
   );

@@ -13,9 +13,6 @@ const nextConfig = {
   output: 'export',
   trailingSlash: true,
   experimental: {
-    // Otimizações para build estática
-    optimizeFonts: true,
-    optimizeImages: true,
     scrollRestoration: true
   },
   async redirects() {

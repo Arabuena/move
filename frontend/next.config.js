@@ -30,6 +30,14 @@ const nextConfig = {
       use: ['@svgr/webpack']
     });
     return config;
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://move-app.onrender.com/api/:path*'
+      }
+    ]
   }
 };
 

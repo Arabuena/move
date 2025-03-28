@@ -29,28 +29,32 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Configuração CORS simplificada
-const corsOptions = {
-  origin: true, // Reflete o Origin da requisição se permitido
-  credentials: true, // Permite credenciais
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-
-// Aplica CORS em todas as rotas
-app.use(cors(corsOptions));
+// CORS config - ANTES de todas as rotas
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://move-k987.onrender.com');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  
+  // Responde OPTIONS imediatamente
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+  
+  next();
+});
 
 // Rotas da API
-app.use('/api', require('./routes/api')); // Mova todas as rotas API para um arquivo separado
+app.use('/api', require('./routes/api'));
 
 // Serve arquivos estáticos
 app.use(express.static(path.join(__dirname, '../frontend/out')));
 
 // Rota catch-all para SPA
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
+  if (!req.path.startsWith('/api/')) {
+    res.sendFile(path.join(__dirname, '../frontend/out/index.html'));
+  }
 });
 
 // Rota para renderizar o formulário

@@ -9,23 +9,6 @@ const api = axios.create({
   }
 });
 
-// Log para debug
-api.interceptors.request.use(request => {
-  console.log('Request:', request);
-  return request;
-});
-
-api.interceptors.response.use(
-  response => {
-    console.log('Response:', response);
-    return response;
-  },
-  error => {
-    console.error('API Error:', error.response || error);
-    return Promise.reject(error);
-  }
-);
-
 // Adiciona token nas requisições
 api.interceptors.request.use((config) => {
   // Adiciona token de autenticação
@@ -33,14 +16,26 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
-  // Adiciona CSRF token se disponível
-  const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
-  if (csrfToken) {
-    config.headers['X-CSRF-Token'] = csrfToken;
-  }
+
+  // Força o CORS a aceitar credenciais
+  config.withCredentials = true;
 
   return config;
+}, (error) => {
+  return Promise.reject(error);
 });
+
+// Log de erros
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    console.error('API Error:', {
+      message: error.message,
+      config: error.config,
+      response: error.response?.data
+    });
+    return Promise.reject(error);
+  }
+);
 
 export default api; 

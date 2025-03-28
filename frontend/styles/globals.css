@@ -1,3 +1,109 @@
 @tailwind base;
 @tailwind components;
-@tailwind utilities; 
+@tailwind utilities;
+
+:root {
+  --primary: #520578;
+  --primary-light: #6B0A9C;
+  --primary-dark: #3D0459;
+  --background: #F3F4F6;
+  --text: #1F2937;
+  --text-light: #6B7280;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--background);
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer components {
+  /* Botões estilo 99 com cores roxas */
+  .btn-primary {
+    @apply bg-primary text-white font-medium py-4 px-6 rounded-xl hover:bg-primary-dark active:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm;
+  }
+
+  .btn-secondary {
+    @apply bg-white text-primary border-2 border-primary font-medium py-4 px-6 rounded-xl hover:bg-primary-50 active:bg-primary-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-outline {
+    @apply bg-white text-gray-700 border border-gray-300 font-medium py-4 px-6 rounded-xl hover:bg-gray-50 active:bg-gray-100 transition-colors;
+  }
+
+  /* Inputs estilo 99 */
+  .input-primary {
+    @apply w-full p-4 bg-white border border-gray-300 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent outline-none text-base placeholder-gray-400;
+  }
+
+  /* Cards estilo 99 */
+  .card {
+    @apply bg-white rounded-xl shadow-card p-4;
+  }
+
+  /* Lista de opções estilo 99 */
+  .option-list {
+    @apply divide-y divide-gray-100;
+  }
+
+  .option-item {
+    @apply flex items-center justify-between p-4 hover:bg-gray-50 cursor-pointer;
+  }
+
+  /* Badge estilo 99 */
+  .badge {
+    @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-primary {
+    @apply bg-primary-100 text-primary-800;
+  }
+
+  .badge-success {
+    @apply bg-green-100 text-green-800;
+  }
+
+  .badge-warning {
+    @apply bg-yellow-100 text-yellow-800;
+  }
+}
+
+/* Estilos para o tema claro/escuro */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* Estilos para inputs e botões */
+input, button {
+  font-family: inherit;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D1D5DB;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9CA3AF;
+} 

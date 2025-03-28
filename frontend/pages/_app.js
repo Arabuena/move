@@ -9,8 +9,10 @@ function MyApp({ Component, pageProps, router }) {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="theme-color" content="#6366f1" />
-        <meta httpEquiv="Content-Security-Policy" content="base-uri 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.crisp.chat; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://*.googleapis.com https://*.crisp.chat; img-src 'self' blob: data: https://*.googleapis.com https://*.gstatic.com https://*.crisp.chat; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://*.googleapis.com https://move-k987.onrender.com/api wss://*.crisp.chat; frame-src 'self' https://*.googleapis.com https://*.crisp.chat; worker-src 'self' blob:; child-src blob:; form-action 'self'; manifest-src 'self'; media-src 'self' https://*.crisp.chat; object-src 'none'; default-src 'self' https://*.crisp.chat wss://*.crisp.chat" />
+        <meta name="theme-color" content="#520578" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
       <AnimatePresence mode="wait">
@@ -35,6 +37,7 @@ function MyApp({ Component, pageProps, router }) {
               clipPath: "polygon(50% 0, 50% 0, 50% 100%, 50% 100%)",
             },
           }}
+          className="min-h-screen bg-background text-text"
         >
           <Component {...pageProps} />
         </motion.div>

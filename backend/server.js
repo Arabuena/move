@@ -7,7 +7,7 @@ const path = require('path');
 const connectDB = require('./config/database');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
-const User = require('./models/user');
+const User = require('./models/User');
 
 // Validate required env vars
 if (!process.env.MONGO_URI) {

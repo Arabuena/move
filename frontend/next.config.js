@@ -3,14 +3,20 @@ const nextConfig = {
   reactStrictMode: true,
   images: {
     unoptimized: true,
-    domains: ['move-k987.onrender.com']
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'move-k987.onrender.com'
+      }
+    ]
   },
   output: 'export',
   trailingSlash: true,
   experimental: {
-    turbotrace: {
-      logLevel: 'error'
-    }
+    // Otimizações para build estática
+    optimizeFonts: true,
+    optimizeImages: true,
+    scrollRestoration: true
   },
   async redirects() {
     return [

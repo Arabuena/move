@@ -28,22 +28,63 @@ const app = express();
 // Middleware básico
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// CORS simples
 app.use(cors());
 
-// Headers de segurança
+// Log de todas as requisições
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+  next();
+});
 
-  // Intercepta preflight
-  if ('OPTIONS' === req.method) {
-    res.sendStatus(200);
-  } else {
-    next();
+// Rota raiz
+app.get('/', (req, res) => {
+  console.log('Root route accessed');
+  res.send('Server is running');
+});
+
+// Rota de ping
+app.get('/ping', (req, res) => {
+  console.log('Ping route accessed');
+  res.send('pong');
+});
+
+// Rota de health check
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Server is running' });
+});
+
+// Rota de teste - ANTES das outras rotas
+app.post('/api/test/create-user', async (req, res) => {
+  try {
+    const testUser = new User({
+      name: 'Usuário Teste',
+      email: 'teste@example.com',
+      phone: '11999999999',
+      password: 'senha123'
+    });
+
+    await testUser.save();
+
+    const token = jwt.sign({ id: testUser._id }, process.env.JWT_SECRET);
+
+    res.status(201).json({
+      message: 'Usuário teste criado com sucesso',
+      token,
+      user: {
+        id: testUser._id,
+        name: testUser.name,
+        email: testUser.email
+      }
+    });
+  } catch (error) {
+    console.error('Erro ao criar usuário teste:', error);
+    res.status(500).json({ error: 'Erro ao criar usuário teste' });
   }
+});
+
+// Rota de teste GET - adicione logo após o middleware CORS
+app.get('/api/test', (req, res) => {
+  res.json({ message: 'API está funcionando!' });
 });
 
 // Rotas da API
@@ -110,13 +151,13 @@ app.post('/api/auth/register', async (req, res) => {
     
     // Validação básica
     if (!name || !email || !phone || !password) {
-      return res.redirect('/register?error=Preencha todos os campos');
+      return res.status(400).json({ error: 'Preencha todos os campos' });
     }
 
     // Verifica se usuário já existe
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.redirect('/register?error=Email já cadastrado');
+      return res.status(400).json({ error: 'Email já cadastrado' });
     }
 
     // Cria novo usuário
@@ -124,21 +165,33 @@ app.post('/api/auth/register', async (req, res) => {
       name,
       email,
       phone,
-      password // será hasheada pelo middleware do mongoose
+      password
     });
     await user.save();
 
     // Gera token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
 
-    // Redireciona com token
-    res.cookie('token', token, { httpOnly: true });
-    res.redirect('/passenger/home');
+    // Retorna resposta JSON
+    res.status(201).json({
+      message: 'Usuário criado com sucesso',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email
+      }
+    });
   } catch (error) {
     console.error('Erro no registro:', error);
-    res.redirect('/register?error=Erro ao criar conta');
+    res.status(500).json({ error: 'Erro ao criar conta' });
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log('==================================');
+  console.log(`Server running on port ${PORT}`);
+  console.log('Server started at:', new Date().toISOString());
+  console.log('==================================');
+}); 

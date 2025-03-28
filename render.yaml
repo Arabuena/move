@@ -1,24 +1,14 @@
 services:
-  # Backend API em https://move-app.onrender.com
-  - name: move-app
+  # Backend API
+  - name: move-backend
     type: web
     env: node
-    buildCommand: cd frontend && npm install && npm run build && cd ../backend && npm install
-    startCommand: cd backend && npm start
+    buildCommand: cd backend && npm install
+    startCommand: node backend/server.js
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: PORT
         value: 8080
-      - key: MONGO_URI
-        fromGroup: move-app
-      - key: JWT_SECRET
-        fromGroup: move-app
-      - key: FRONTEND_URL
-        value: https://move-k987.onrender.com
-      - key: BACKEND_URL
-        value: https://move-app.onrender.com
-    healthCheckPath: /api/hello
+    healthCheckPath: /ping
     autoDeploy: true
     headers:
       - path: /*
@@ -38,7 +28,7 @@ services:
     publishDir: frontend/out
     envVars:
       - key: NEXT_PUBLIC_API_URL
-        value: https://move-app.onrender.com/api
+        value: https://move-backend.onrender.com/api
     headers:
       - path: /*
         name: Cache-Control

@@ -35,7 +35,7 @@ const nextConfig = {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://move-app.onrender.com/api/:path*'
+        destination: 'https://move-backend.onrender.com/api/:path*'
       }
     ]
   }
